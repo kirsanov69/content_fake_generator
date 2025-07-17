@@ -62,8 +62,9 @@ def convert_to_json(response: List[Dict[str, Any]], component_block: str = "bloc
             if component_name != "picture_block":
                 item_dict["status"] = component_status[component_name]
             else:
-                item_dict["src"] = sub_item.get("item_data", ""),
-                item_dict["alt"] = "Не удалось загрузить изображение"
+                item_dict["data"] = {
+                    "src": sub_item.get("item_data", ""),
+                    "alt":  "Не удалось загрузить изображение"}
 
             grouped_blocks[block_id][component_name].append(item_dict)
 
@@ -88,4 +89,7 @@ if __name__ == "__main__":
     response = generate_response()
     print("Response generated successfully.", response)
     json_output = convert_to_json(response, "block-0-1")
+    with open("output.json", "a", encoding="utf-8") as f:
+        
+        f.write("\n" + json_output + "\n")
     print(json_output)
