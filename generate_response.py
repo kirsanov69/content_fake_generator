@@ -17,19 +17,34 @@ from typing import List, Dict, Any
 
 
 def generate_random_title() -> str:
+    """
+    Генерирует случайный заголовок длиной от 10 до 200 символов.
+    """
     return "Заголовок " + ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ', k=random.randint(10, 200)))
 
 def generate_random_text() -> str:
-    return "Текст блока " + ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ', k=random.randint(50, 1000)))
+    """
+    Генерирует случайный текст длиной от 50 до 1000 символов.
+    """
+    return "Текст блока " + ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ', k=random.randint(50, 200)))
 
 def generate_random_quote() -> str:
+    """
+    Генерирует случайную цитату длиной от 20 до 300 символов.
+    """
     return "Цитата " + ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ', k=random.randint(20, 300)))
 
 def generate_random_button() -> str:
+    """
+    Генерирует случайную кнопку с текстом длиной от 5 до 100 символов.
+    """
     return "Кнопка " + ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ', k=random.randint(5, 100)))
 
 
 def generate_response() -> List[Dict[str, Any]]:
+    """
+    Генерирует случайный ответ в виде списка блоков, каждый из которых содержит случайные элементы.
+    """
     response = []
     num_blocks = random.randint(1, 5)  
 
@@ -79,7 +94,7 @@ def generate_response() -> List[Dict[str, Any]]:
 
     return response
 
-links = [
+links: List[str] = [
     "https://ds56-glazov-r18.gosweb.gosuslugi.ru/nash-detskiy-sad/novosti-i-sobytiya/perehodim-dorogu-bezopasno.html", 
     "https://sh10-sokol-r19.gosweb.gosuslugi.ru/netcat_files/userfiles/169298a6-c767-47b4-b5ce-9de17ffcab87.jpg",
     "https://ds56-glazov-r18.gosweb.gosuslugi.ru/nash-detskiy-sad/novosti-i-sobytiya/perehodim-dorogu-bezopasno.html",

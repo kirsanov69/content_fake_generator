@@ -1,4 +1,3 @@
-
 """
 Принимаем структуру из data_to_json.py и преобразуем ее в JSON-ответ для фронта.
 компоненты:
@@ -16,13 +15,22 @@ severity — та же важность, что была в исходных д�
 список списков, где каждый список — это блок с элементами, которые имеют общий parent_block_id.
 """
 
-
 from collections import defaultdict
 import json
 from typing import List, Dict, Any
 
-def convert_to_json(response: List[Dict[str, Any]], component_block: str = "block-0-0") -> str:
-    
+
+def convert_to_json(
+    response: List[Dict[str, Any]], component_block: str = "block-0-0"
+) -> str:
+    """
+    Преобразует список словарей в JSON-ответ для фронта.
+    :param response: Список словарей, полученный из data_to_json.py
+    :param component_block: Идентификатор блока, к которому принадлежат компоненты
+    :return: JSON-ответ в виде строки
+
+    """
+
     item_type_to_component: Dict[str, str] = {
         "title": "text_block",
         "text": "text_block",
@@ -32,11 +40,10 @@ def convert_to_json(response: List[Dict[str, Any]], component_block: str = "bloc
         "button": "action_button",
     }
 
-    
     component_status: Dict[str, str] = {
         "text_block": "nice",
         "action_button": "normal",
-        "picture_block": "normal"
+        "picture_block": "normal",
     }
 
     # Группируем по parent_block_id и component_name
@@ -64,19 +71,21 @@ def convert_to_json(response: List[Dict[str, Any]], component_block: str = "bloc
             else:
                 item_dict["data"] = {
                     "src": sub_item.get("item_data", ""),
-                    "alt":  "Не удалось загрузить изображение"}
+                    "alt": "Не удалось загрузить изображение",
+                }
 
             grouped_blocks[block_id][component_name].append(item_dict)
 
-    
     result = []
     for block_id, components in grouped_blocks.items():
         for component_name, items in components.items():
-            result.append({
-                "component_name": component_name,
-                "parent_block_id": block_id,
-                "items": items
-            })
+            result.append(
+                {
+                    "component_name": component_name,
+                    "parent_block_id": block_id,
+                    "items": items,
+                }
+            )
 
     return json.dumps(result, ensure_ascii=False, indent=2)
 
@@ -84,12 +93,15 @@ def convert_to_json(response: List[Dict[str, Any]], component_block: str = "bloc
 if __name__ == "__main__":
     import sys
     import os
+
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     from generate_response import generate_response
+
     response = generate_response()
     print("Response generated successfully.", response)
     json_output = convert_to_json(response, "block-0-1")
+    # Запись в файл output.json
     with open("output.json", "a", encoding="utf-8") as f:
-        
+
         f.write("\n" + json_output + "\n")
     print(json_output)
